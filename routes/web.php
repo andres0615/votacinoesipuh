@@ -20,6 +20,16 @@
 Route::get('/', ["as" => "inicio",
     function () {
       //return view('welcome');
-      //return view('test');
-      return view('index');
+      return view('admin.main');
+      //return view('index');
     }]);
+
+Route::group(["prefix" => "admin", "as" => "admin."], function(){
+
+  Route::resource('persona', 'PersonaController');
+
+  Route::post('persona/destroyMass', [
+      'as' => 'persona.destroyMass',
+      'uses' => 'PersonaController@destroyMass'
+  ]);
+});
