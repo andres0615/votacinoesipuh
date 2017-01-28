@@ -19,7 +19,7 @@
     <br />
     <div class="panel panel-custom-admin">
         <div class="panel-heading">
-            <h3 class="panel-title"><i class="fa fa-user"></i> Usuarios</h3>
+            <h3 class="panel-title"><i class="fa fa-user"></i> Personas</h3>
         </div>
         <table class="table table-bordered ctable">
             <thead>

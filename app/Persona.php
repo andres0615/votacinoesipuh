@@ -9,7 +9,7 @@ class Persona extends Authenticatable
 {
   use Notifiable;
 
-
+  protected $primaryKey='persona_id';
 
   public $timestamps = false;
 
