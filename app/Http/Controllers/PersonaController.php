@@ -10,7 +10,7 @@ use App\Persona;
 use App\TipoPersona;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
-//use Illuminate\Exception;
+use Illuminate\Support\Facades\DB;
 
 class PersonaController extends BaseController
 {
@@ -36,7 +36,7 @@ class PersonaController extends BaseController
 
       $imagen = $request->file('persona_foto');
 
-      if ($imagen){
+      if ($imagen != null){
 
         if(in_array($imagen->getMimeType(), array("image/jpeg", "image/png"))){
           $nombre_imagen = 'app/persona_foto/' . str_random(5) . '-' . str_replace(' ', '', $imagen->getClientOriginalName());
@@ -58,6 +58,10 @@ class PersonaController extends BaseController
         } else {
           $request_p[$key] = $value;
         }
+      }
+
+      if(! isset($request_p["persona_foto"])){
+        $request_p["persona_foto"] = $nombre_imagen;
       }
 
       $persona = new Persona($request_p);
@@ -108,8 +112,6 @@ class PersonaController extends BaseController
 
     $persona = Persona::find($id);
 
-    dd($persona);
-
     $persona->persona_nombre = $request->persona_nombre;
     $persona->persona_apellido= $request->persona_apellido;
     $persona->persona_foto= $request->persona_foto;
@@ -145,10 +147,45 @@ class PersonaController extends BaseController
     }
 
     $persona->save();
-    Flash('La persona se creo correctamente.', 'success');
+    Flash('La persona se actualizo correctamente.', 'success');
 
     return redirect()->route('admin.persona.index');
 
+  }
+
+  public function destroyMass(Request $request){
+    DB::beginTransaction();
+    try{
+      foreach($request->ids as $id){
+        $persona = Persona::find($id);
+        $persona->delete();
+      }
+      DB::commit();
+      Flash("La persona se elimino con exito", 'success');
+
+      return redirect()->route('admin.persona.index');
+
+    } catch(\Exception $e){
+      Flash('Ha ocurrido un error: ' . $e->getMessage(), 'danger');
+      DB::rollBack();
+
+      return redirect()->route('admin.persona.create');
+    }
+  }
+
+  public function destroy($id){
+    try{
+      $persona = Persona::find($id);
+      $persona->delete();
+      Flash("La persona se elimino con exito", 'success');
+
+      return redirect()->route('admin.persona.index');
+
+    } catch(\Exception $e){
+      Flash('Ha ocurrido un error: ' . $e->getMessage(), 'danger');
+
+      return redirect()->route('admin.persona.create');
+    }
   }
 
 }

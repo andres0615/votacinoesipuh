@@ -24,12 +24,33 @@ Route::get('/', ["as" => "inicio",
       //return view('index');
     }]);
 
-Route::group(["prefix" => "admin", "as" => "admin."], function(){
 
-  Route::resource('persona', 'PersonaController');
+Route::group(['middleware' => ['auth']], function(){
+  Route::group(["prefix" => "admin", "as" => "admin."], function(){
 
-  Route::post('persona/destroyMass', [
-      'as' => 'persona.destroyMass',
-      'uses' => 'PersonaController@destroyMass'
-  ]);
+    Route::resource('persona', 'PersonaController');
+
+    Route::post('persona/destroyMass', [
+        'as' => 'persona.destroyMass',
+        'uses' => 'PersonaController@destroyMass'
+    ]);
+
+    Route::resource('tipopersona', 'TipoPersonaController');
+
+    Route::post('tipopersona/destroyMass', [
+        'as' => 'tipopersona.destroyMass',
+        'uses' => 'TipoPersonaController@destroyMass'
+    ]);
+
+    Route::resource('eleccion', 'EleccionController');
+
+    Route::post('elecciona/destroyMass', [
+        'as' => 'eleccion.destroyMass',
+        'uses' => 'EleccionController@destroyMass'
+    ]);
+
+  });
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index');

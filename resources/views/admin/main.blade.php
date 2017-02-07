@@ -36,6 +36,8 @@
                 </div>
                 <div class="list-group">
                     <a href="{{ route('admin.persona.index') }}" class="list-group-item">Persona</a>
+                    <a href="{{ route('admin.tipopersona.index') }}" class="list-group-item">Tipo persona</a>
+                    <a href="{{ route('admin.eleccion.index') }}" class="list-group-item">Eleccion</a>
                 </div>
             </div>
         </div>
@@ -48,6 +50,8 @@
                     <div class="d-block spacer">
                         <select class="form-control" id="modulo-select" >
                             <option value="{{ route('admin.persona.index') }}" >Persona</option>
+                            <option value="{{ route('admin.tipopersona.index') }}" >Tipo persona</option>
+                            <option value="{{ route('admin.eleccion.index') }}" >Eleccion</option>
                         </select>
                     </div>
                     <div class="d-block">
