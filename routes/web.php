@@ -17,15 +17,7 @@
 });*/
 
 
-Route::get('/', ["as" => "inicio",
-    function () {
-      //return view('welcome');
-      return view('admin.main');
-      //return view('index');
-    }]);
-
-
-//Route::group(['middleware' => ['auth']], function(){
+Route::group(['middleware' => ['auth']], function(){
   Route::group(["prefix" => "admin", "as" => "admin."], function(){
 
     Route::resource('persona', 'PersonaController');
@@ -50,7 +42,19 @@ Route::get('/', ["as" => "inicio",
     ]);
 
   });
-/*});
+
+  Route::get('/profile', ["as" => "profile", function(){
+    return view('admin.persona.profile');
+  }]);
+
+  Route::get('/', ["as" => "inicio",
+  function () {
+    //return view('welcome');
+    return view('admin.main');
+    //return view('index');
+  }]);
+
+});
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');*/
+Route::get('/home', 'HomeController@index');

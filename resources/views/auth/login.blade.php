@@ -10,7 +10,23 @@
                     <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
                         {{ csrf_field() }}
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
+                        <div class="form-group{{ Session::has('errors') ? ' has-error' : '' }}">
+                            <label for="email" class="col-md-4 control-label">Codigo</label>
+
+                            <div class="col-md-6">
+                                <input id="persona_codigo_alterno" type="text" class="form-control" name="persona_codigo_alterno" value="{{ old('persona_codigo_alterno') }}" required autofocus>
+
+                                @if (Session::has('errors'))
+                                    <span class="help-block">
+                                        @foreach ($errors->all() as $error)
+                                            <strong>{{ $error }}</strong>
+                                        @endforeach
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        {{-- <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
                             <div class="col-md-6">
@@ -36,9 +52,9 @@
                                     </span>
                                 @endif
                             </div>
-                        </div>
+                        </div>--}}
 
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <div class="checkbox">
                                     <label>
@@ -46,7 +62,7 @@
                                     </label>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
@@ -54,9 +70,9 @@
                                     Login
                                 </button>
 
-                                <a class="btn btn-link" href="{{ url('/password/reset') }}">
+                                {{--<a class="btn btn-link" href="{{ url('/password/reset') }}">
                                     Forgot Your Password?
-                                </a>
+                                </a> --}}
                             </div>
                         </div>
                     </form>

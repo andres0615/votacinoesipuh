@@ -186,6 +186,8 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
 
+        //Custom Providers
+
     ],
 
     /*

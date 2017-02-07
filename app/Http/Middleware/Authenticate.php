@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class Authenticate
 {
@@ -15,7 +16,11 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
-        dd($request->user());
-        return $next($request);
+        //dd(Auth::guard('persona')->check());
+        if(Auth::guard('persona')->check()){
+            return $next($request);
+        } else {
+            return redirect()->route('login');
+        }
     }
 }
