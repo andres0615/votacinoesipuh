@@ -25,7 +25,7 @@ Route::get('/', ["as" => "inicio",
     }]);
 
 
-Route::group(['middleware' => ['auth']], function(){
+//Route::group(['middleware' => ['auth']], function(){
   Route::group(["prefix" => "admin", "as" => "admin."], function(){
 
     Route::resource('persona', 'PersonaController');
@@ -50,7 +50,7 @@ Route::group(['middleware' => ['auth']], function(){
     ]);
 
   });
-});
+/*});
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/home', 'HomeController@index');*/
