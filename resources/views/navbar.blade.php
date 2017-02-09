@@ -39,7 +39,7 @@
                         Perfil <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ route('profile') }}">Mi cuenta</a></li>
+                        <li><a href="{{ route('inicio') }}">Mi cuenta</a></li>
                         <li class="divider" ></li>
                         <li><a href="{{ url('/logout') }}"
                                onclick="event.preventDefault();

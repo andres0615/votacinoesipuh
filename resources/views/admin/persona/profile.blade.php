@@ -16,13 +16,13 @@
             </div>
 
             <div class="list-group">
-                <a href="" class="list-group-item">Cras justo odio</a>
-                <a href="{{ route('inicio') }}" class="list-group-item">Panel de administracion</a>
+                <a href="{{ route('admin.persona.index') }}" class="list-group-item">Panel de administracion</a>
             </div>
         </div>
     </div>
     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-
+        @yield('personamenu')
+        @yield('votacionui')
     </div>
 </div>
 

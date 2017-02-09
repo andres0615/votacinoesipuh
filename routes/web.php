@@ -36,7 +36,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::resource('eleccion', 'EleccionController');
 
-    Route::post('elecciona/destroyMass', [
+    Route::post('eleccion/destroyMass', [
         'as' => 'eleccion.destroyMass',
         'uses' => 'EleccionController@destroyMass'
     ]);
@@ -44,15 +44,14 @@ Route::group(['middleware' => ['auth']], function(){
   });
 
   Route::get('/profile', ["as" => "profile", function(){
-    return view('admin.persona.profile');
+    return view('admin.persona.menu');
   }]);
 
-  Route::get('/', ["as" => "inicio",
-  function () {
-    //return view('welcome');
-    return view('admin.main');
-    //return view('index');
-  }]);
+  //Route::get('/', ["as" => "inicio",'uses' => 'VotacionController@index']);
+  Route::get('/', ["as" => "inicio",'uses' => 'VotacionController@index']);
+  Route::get('/uieleccion/{eleccion_codigo}', ["as" => "uieleccion",'uses' => 'VotacionController@eleccion']);
+
+  //Route::resource('eleccion', 'VotacionController');
 
 });
 Auth::routes();

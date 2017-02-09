@@ -113,10 +113,11 @@ class PersonaController extends BaseController
     $persona = Persona::find($id);
 
     $persona->persona_nombre = $request->persona_nombre;
-    $persona->persona_apellido= $request->persona_apellido;
-    $persona->persona_foto= $request->persona_foto;
-    $persona->persona_codigo_alterno= $request->persona_codigo_alterno;
-    $persona->tipo_persona_id= $request->tipo_persona_id;
+    $persona->persona_apellido = $request->persona_apellido;
+    $persona->persona_codigo_alterno = $request->persona_codigo_alterno;
+    $persona->tipo_persona_id = $request->tipo_persona_id;
+    $persona->persona_activa = isset($request->persona_activa);
+    $persona->persona_ingreso = isset($request->persona_ingreso);
 
     $imagen = $request->file('persona_foto');
 
@@ -130,20 +131,8 @@ class PersonaController extends BaseController
         throw new \Exception("La imagen debe ser en formato png o jpg");
       }
 
-    } else {
-      $nombre_imagen = 'app/persona_foto/default_user.png';
-    }
+      $persona->persona_foto = $nombre_imagen;
 
-    $request_p = array();
-
-    foreach($request->all() as $key => $value){
-      if($key == "persona_foto"){
-        if($imagen){
-          $request_p[$key] = $nombre_imagen;
-        }
-      } else {
-        $request_p[$key] = $value;
-      }
     }
 
     $persona->save();

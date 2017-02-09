@@ -49,7 +49,7 @@ class LoginController extends Controller
         $credentials = array('persona_codigo_alterno' => $codigo_alterno);
         if ($this->guard()->attempt($credentials)) {
             // Authentication passed...
-            return redirect()->route('profile');
+            return redirect()->route('inicio');
         }
         return redirect()->route('login')->withErrors('Codigo errado');
     }
