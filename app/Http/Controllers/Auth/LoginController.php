@@ -44,18 +44,28 @@ class LoginController extends Controller
      *
      * @return Response
      */
-    public function authenticate($codigo_alterno)
+    public function authenticate($persona_identificacion, $codigo_alterno)
     {
-        $credentials = array('persona_codigo_alterno' => $codigo_alterno);
+        $credentials = array('persona_codigo_alterno' => $codigo_alterno,
+            'persona_identificacion' => $persona_identificacion);
         if ($this->guard()->attempt($credentials)) {
             // Authentication passed...
-            return redirect()->route('inicio');
+
+            $persona = Auth::guard('persona')->user();
+
+            //dd($persona);
+
+            if($persona->tipo_persona_id == 6){
+                return redirect()->route('authshowvalidation');
+            } else {
+                return redirect()->route('inicio');
+            }
         }
-        return redirect()->route('login')->withErrors('Codigo errado');
+        return redirect()->route('login')->withErrors('Credenciales herradas');
     }
 
     public function login(Request $request){
-        return $this->authenticate($request->persona_codigo_alterno);
+        return $this->authenticate($request->persona_identificacion, $request->persona_codigo_alterno);
     }
 
     protected function guard()

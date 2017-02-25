@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class Authenticate
+class AdminAux
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,6 @@ class Authenticate
     public function handle($request, Closure $next)
     {
         //dd(Auth::guard('persona')->check());
-        
         if(Auth::guard('persona')->check()){
             return $next($request);
         } else {

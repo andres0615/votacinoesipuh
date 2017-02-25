@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Eleccion;
 use App\EleccionPersona;
 use App\Persona;
+use App\Votacion;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,6 +31,8 @@ class VotacionController extends Controller
                             ->get();
         }
 
+        //dd($data);
+
         return view('admin.persona.menu',$data);
     }
 
@@ -46,57 +49,34 @@ class VotacionController extends Controller
         return view('admin.persona.votacionui',$data);
     }
 
-    public function create(){
-        $data = array();
-        $data["title"] = "Crear eleccion";
-        $data["edit"] = false;
-        $data["activo"] = '';
-
-        $data["candidatos"] = DB::table('persona')
-        ->where('tipo_persona_id', 2)
-        ->where('persona_activa', true)
-        ->select('persona_id', 'persona_nombre')
-        ->get();
-
-        //dd($candidatos);
-
-        return view('admin.eleccion.form', $data);
-    }
-
     public function store(Request $request){
 
         try{
 
-            $request_p = array();
+            $eleccion = Eleccion::find($request->eleccion_id);
 
-            foreach($request->all() as $key => $value){
-                if($key == "candidatos"){
-                    $candidatos = $value;
-                } else {
-                    $request_p[$key] = $value;
-                }
+            if($eleccion->eleccion_activa == true){
+                $persona = Auth::guard('persona')->user();
+
+                $votacion = new Votacion($request->all());
+                $votacion->persona_id = $persona->persona_id;
+                $votacion->save();
+
+                Flash('Su voto se realizo correctamente.', 'success');
+
+                return redirect()->route('inicio');
+            } else {
+                Flash('Esta votacion ya no esta disponible.', 'danger');
+                return redirect()->route('inicio');
             }
-
-            $eleccion = new Eleccion($request_p);
-            $eleccion->save();
-
-            foreach($candidatos as $candidato){
-                $eleccion_persona = new EleccionPersona();
-                $eleccion_persona->eleccion_id = $eleccion->eleccion_id;
-                $eleccion_persona->persona_id = $candidato;
-                $eleccion_persona->save();
-            }
-
-            Flash('La eleccion se creo correctamente.', 'success');
-
-            return redirect()->route('admin.eleccion.index');
+            
         } catch(\Exception $e){
             //$error = new ErrorController();
             //$error->storeErrorException($e);
             //Flash($error->mensaje, 'danger');
             Flash('Ha ocurrido un error: ' . $e->getMessage(), 'danger');
 
-            return redirect()->route('admin.eleccion.create');
+            return redirect()->route('inicio');
         }
 
     }

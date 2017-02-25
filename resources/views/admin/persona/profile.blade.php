@@ -3,6 +3,20 @@
 @section('content')
 
 <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        {{-- @include('flash::message') --}}
+        @if(session()->has('flash_notification.message'))
+            <div class="alert alert-{{ session('flash_notification.level') }} alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {!! session('flash_notification.message') !!}
+            </div>
+        @endif
+
+        @yield('content2')
+    </div>
+</div>
+
+<div class="row">
     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
         <div class="panel panel-default">
             <div class="panel-body">

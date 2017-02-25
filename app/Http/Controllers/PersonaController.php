@@ -118,6 +118,7 @@ class PersonaController extends BaseController
     $persona->tipo_persona_id = $request->tipo_persona_id;
     $persona->persona_activa = isset($request->persona_activa);
     $persona->persona_ingreso = isset($request->persona_ingreso);
+    $persona->persona_identificacion = $request->persona_identificacion;
 
     $imagen = $request->file('persona_foto');
 
@@ -175,6 +176,16 @@ class PersonaController extends BaseController
 
       return redirect()->route('admin.persona.create');
     }
+  }
+
+  public function ingresoForm(){
+    return view('admin.persona.ingreso');
+  }
+
+  public function getIdentificacionesJson(){
+    $identificaciones = Persona::select(["persona_identificacion"])->get()->pluck('persona_identificacion')->toArray();
+
+    return response($identificaciones);
   }
 
 }

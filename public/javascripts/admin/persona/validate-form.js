@@ -7,12 +7,14 @@ $().ready(function(){
       persona_nombre: "required",
       persona_apellido: "required",
       persona_codigo_alterno: "required",
+      tipo_persona_id: "required",
       tipo_persona_id: "required"
     },
     messages: {
       persona_nombre: "Por favor ingrese el nombre",
       persona_apellido: "Por favor ingrese el apellido",
-      persona_codigo_alterno: "required",
+      persona_codigo_alterno: "Este campo es requerido",
+      tipo_persona_id: "Este campo es requerido",
       tipo_persona_id: "Este campo es requerido"
     },
     showErrors: function(errorMap, errorList){

@@ -4,13 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Eleccion;
+use App\Votacion;
 use App\EleccionPersona;
 use Illuminate\Support\Facades\DB;
+use Storage;
+use Resource;
 
 class EleccionController extends Controller
 {
     public function index(){
         $elecciones = Eleccion::orderBy('eleccion_nombre', 'ASC')->paginate(5);
+
+
         return view('admin.eleccion.index',compact('elecciones'));
     }
 
@@ -90,7 +95,11 @@ class EleccionController extends Controller
             ->where('eleccion_id', $id)
             ->pluck('persona_id');
 
-            //dd($data);
+        $data["resultados"] = $this->getResultados($id)->get();
+
+        //dd($data);
+
+        $data["count"] = 0;
 
 
         return view('admin.eleccion.form', $data);
@@ -168,4 +177,54 @@ class EleccionController extends Controller
             return redirect()->route('admin.tipopersona.create');
         }
     }
+
+    public function reporte($eleccion_id){
+
+        $eleccion = Eleccion::find($eleccion_id);
+
+        $content = '';
+
+        $salto_linea = "\r\n";
+
+        /*$cabeceras = collect($this->getResultados($eleccion_id)->first())->keys()->toArray();
+
+        $content .= implode(',', $cabeceras);*/
+
+        $content .= "candidato,votos";
+        $content .= $salto_linea;
+
+        foreach($this->getResultados($eleccion_id)->get() as $resultado){
+            $content .= implode(',', collect($resultado)->toArray());
+            $content .= $salto_linea;
+        }
+
+        //dd($eleccion);
+
+        $nombre = strtolower($eleccion->eleccion_nombre);
+        $nombre = str_replace(' ', '_', $nombre);
+        $nombre = $nombre.".csv";
+
+        //dd($nombre);
+
+        Storage::disk('local')->put($nombre, $content);
+
+        return response()->download($nombre, $nombre);
+    }
+
+    public function getResultados($id){
+        return DB::table('eleccion_persona')
+                            ->leftJoin('persona','persona.persona_id', '=', 'eleccion_persona.persona_id')
+                            ->leftJoin('votacion',function($join){
+                                    $join->on('votacion.candidato_id', '=', 'eleccion_persona.persona_id')
+                                    ->on('votacion.eleccion_id', '=', 'eleccion_persona.eleccion_id');
+                                })
+                            ->select('persona.persona_nombre',
+                                DB::raw('count(votacion.votacion_id) as votos'))
+                            ->groupBy('votacion.candidato_id')
+                            ->groupBy('persona.persona_nombre')
+                            ->orderBy('votos', 'desc')
+                            ->orderBy('persona_nombre', 'asc')
+                            ->where('eleccion_persona.eleccion_id',$id);
+    }
+
 }

@@ -8,6 +8,8 @@
     <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('stylesheets/font-awesome/font-awesome.css') }}">
     <link rel="stylesheet" href="{{ asset('stylesheets/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/easy-autocomplete.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/easy-autocomplete.themes.css') }}">
     <script src="{{ asset('javascripts/jquery/jquery-1.12.4.min.js') }}" ></script>
     {{-- <script src="{{ asset('javascripts/jquery/jquery-1.11.1.min.js') }}" ></script> --}}
     <script>
@@ -17,6 +19,7 @@
     <script src="{{ asset('javascripts/plugins/jquery.bootstrap-dropdown-hover.min.js') }}" ></script>
     <script src="{{ asset('javascripts/plugins/jquery-validate.js') }}" ></script>
     <script src="{{ asset('javascripts/main.js') }}" ></script>
+    <script src="{{ asset('js/jquery.easy-autocomplete.js') }}" ></script>
     @yield('assets')
 
 </head>

@@ -58,6 +58,7 @@
                     {{ Form::token() }}
                     @if($edit)
                         <input type="hidden" name="_method" value="put" />
+                        <a href="{{ route('admin.eleccion.reporte', ['eleccion_id' => $id]) }}" class="btn cbtn-default">Generar reporte</a>
                     @endif
                 </div>
             </div>
@@ -67,6 +68,38 @@
         </div> --}}
     </div>
 </div>
+
+<br>
+
+@if($edit == true)
+
+<div class="panel panel-custom-admin">
+    <div class="panel-heading">
+        <h3 class="panel-title" >Resultados</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+        <thead>
+          <tr>
+            <th>Puesto</th>
+            <th>Nombre</th>
+            <th>Candtidad de votos</th>
+          </tr>
+        </thead>
+        <tbody>
+        @foreach($resultados as $key => $resultado)
+          <tr>
+            <td>{{ ($key>0)?(($resultados[$key-1]->votos == $resultado->votos)?$count:++$count):++$count  }}</td>
+            <td>{{ $resultado->persona_nombre }}</td>
+            <td>{{ $resultado->votos }}</td>
+          </tr>
+        @endforeach
+        </tbody>
+      </table>
+    </div>
+</div>
+
+@endif
 
 <script type="text/javascript">
     $(document).ready(function() {

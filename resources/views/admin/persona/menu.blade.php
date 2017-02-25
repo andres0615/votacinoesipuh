@@ -8,7 +8,7 @@
         </div>
         <div class="panel-body">
             <div class="list-group">
-                @if(isset($elecciones))
+                @if($elecciones->count() > 0)
                     @foreach($elecciones as $eleccion)
                         <a href="{{ route('uieleccion',["eleccion_codigo" => $eleccion->eleccion_id]) }}" class="list-group-item">{{ $eleccion->eleccion_nombre }}</a>
                     @endforeach

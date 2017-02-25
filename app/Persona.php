@@ -22,6 +22,6 @@ class Persona extends Authenticatable
    */
   protected $fillable = [
       "persona_id","persona_nombre","persona_apellido","persona_foto","persona_codigo_alterno",
-      "tipo_persona_id","persona_activa","persona_ingreso"
+      "tipo_persona_id","persona_activa","persona_ingreso",'persona_identificacion'
   ];
 }

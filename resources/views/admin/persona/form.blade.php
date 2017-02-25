@@ -30,6 +30,19 @@
                     </div>
                 </div>
             </div>
+            <div class="row"><div class="col-lg-6 col-md-6 col-md-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="persona_codigo_alterno">Numero Identificacion:</label>
+                        {!! Form::input('text', 'persona_identificacion', null, ['class'=> 'form-control', 'id' => "persona_identificacion"]) !!}
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-md-12 col-xs-12">
+                    <div class="form-group">
+                        <label for="persona_codigo_alterno">Codigo alterno:</label>
+                        {!! Form::input('text', 'persona_codigo_alterno', null, ['class'=> 'form-control', 'id' => "persona_codigo_alterno"]) !!}
+                    </div>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-md-12 col-xs-12">
                     <div class="form-group">
@@ -46,30 +59,23 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-md-12 col-xs-12">
                     <div class="form-group">
-                        <label for="persona_codigo_alterno">Codigo alterno:</label>
-                        {!! Form::input('text', 'persona_codigo_alterno', null, ['class'=> 'form-control', 'id' => "persona_codigo_alterno"]) !!}
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 col-md-6 col-md-12 col-xs-12">
-                    <div class="form-group">
                         <label for="tipo_persona_id">Tipo persona:</label>
                         {!! Form::select('tipo_persona_id', $tipos_persona, null, ['id' =>'tipo_persona_id', 'class' => 'form-control fc-input']) !!}
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-md-12 col-xs-12">
-                    <div class="form-group">
-                        <label>Activa:</label>
-                        {!! Form::input('checkbox', 'persona_activa', null, ['id' => 'persona_activa', 'class'=> 'form-control', $activo]) !!}
-                    </div>
-                </div>
+                
             </div>
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-md-12 col-xs-12">
                     <div class="form-group">
                         <label>Ingreso:</label>
                         {!! Form::input('checkbox', 'persona_ingreso', null, ['id' => 'persona_ingreso', 'class'=> 'form-control', $ingreso]) !!}
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-md-12 col-xs-12">
+                    <div class="form-group">
+                        <label>Activa:</label>
+                        {!! Form::input('checkbox', 'persona_activa', null, ['id' => 'persona_activa', 'class'=> 'form-control', $activo]) !!}
                     </div>
                 </div>
             </div>

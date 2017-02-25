@@ -18,29 +18,53 @@
 
 
 Route::group(['middleware' => ['auth']], function(){
-  Route::group(["prefix" => "admin", "as" => "admin."], function(){
 
-    Route::resource('persona', 'PersonaController');
+  Route::get('/auth/showadminvalidation',["as" => "authshowvalidation", "uses" => "CredentialsController@showAdminValidation"]);
 
-    Route::post('persona/destroyMass', [
-        'as' => 'persona.destroyMass',
-        'uses' => 'PersonaController@destroyMass'
-    ]);
+  Route::get('/auth/adminvalidation/{opcion}',["as" => "authvalidation", "uses" => "CredentialsController@adminValidation"]);
 
-    Route::resource('tipopersona', 'TipoPersonaController');
+  Route::group(['middleware' => ['auth.admin.aux']], function(){
 
-    Route::post('tipopersona/destroyMass', [
-        'as' => 'tipopersona.destroyMass',
-        'uses' => 'TipoPersonaController@destroyMass'
-    ]);
+    Route::get('/admin/persona/identificaciones', ["as" => "admin.persona.identificaciones", "uses" => "PersonaController@getIdentificacionesJson"]);
 
-    Route::resource('eleccion', 'EleccionController');
+    Route::get('/admin/aux/persona/ingreso',["as" => "admin.persona.ingreso", "uses" => "PersonaController@ingresoForm"]);
 
-    Route::post('eleccion/destroyMass', [
-        'as' => 'eleccion.destroyMass',
-        'uses' => 'EleccionController@destroyMass'
-    ]);
+    Route::group(['middleware' => ['auth.admin']], function(){
 
+    Route::group(["prefix" => "admin", "as" => "admin."], function(){
+
+      Route::resource('persona', 'PersonaController');
+
+      Route::post('persona/destroyMass', [
+          'as' => 'persona.destroyMass',
+          'uses' => 'PersonaController@destroyMass'
+      ]);
+
+      Route::resource('tipopersona', 'TipoPersonaController');
+
+      Route::post('tipopersona/destroyMass', [
+          'as' => 'tipopersona.destroyMass',
+          'uses' => 'TipoPersonaController@destroyMass'
+      ]);
+
+      Route::resource('eleccion', 'EleccionController');
+
+      Route::post('eleccion/destroyMass', [
+          'as' => 'eleccion.destroyMass',
+          'uses' => 'EleccionController@destroyMass'
+      ]);
+
+      Route::get('/eleccion/reporte/{eleccion_id}',["as" => 'eleccion.reporte',
+        'uses' => 'EleccionController@reporte']);
+
+      Route::resource('votacion', 'VotacionController');
+
+    });
+
+    //Route::resource('eleccion', 'VotacionController');
+    
+    });
+  
   });
 
   Route::get('/profile', ["as" => "profile", function(){
@@ -51,9 +75,16 @@ Route::group(['middleware' => ['auth']], function(){
   Route::get('/', ["as" => "inicio",'uses' => 'VotacionController@index']);
   Route::get('/uieleccion/{eleccion_codigo}', ["as" => "uieleccion",'uses' => 'VotacionController@eleccion']);
 
-  //Route::resource('eleccion', 'VotacionController');
-
 });
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
+
+Route::get('/test',[function(){
+  //return view('auth.authadmin');
+  //Request::session('test','valor');
+  //session(['test' => 'valor']);
+  //dd(Request::session()->all());
+  //dd(session()->all());
+}]);
