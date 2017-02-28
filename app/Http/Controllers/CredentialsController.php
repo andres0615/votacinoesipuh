@@ -11,12 +11,17 @@ use App\TipoPersona;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CredentialsController extends BaseController
 {
 
   public function showAdminValidation(){
-      return view('auth.authadmin');
+      if(Auth::guard('persona')->user()->tipo_persona_id == 6 && !session()->exists('menu')){
+        return view('auth.authadmin');
+      } else {
+        return redirect()->route('inicio');
+      }
   }
 
   public function adminValidation($opcion){

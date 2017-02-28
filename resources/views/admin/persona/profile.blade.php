@@ -1,7 +1,6 @@
 @extends('main')
 
 @section('content')
-
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         {{-- @include('flash::message') --}}
@@ -23,14 +22,18 @@
                 <div class="row">
                     <div class="col-sm-4 col-xs-3"></div>
                     <div class="col-lg-12 col-md-12 col-sm-4 col-xs-6">
-                        <img src="{{ asset('img/default_user.png') }}" alt="Imagen de perfil" class="img-thumbnail custom-profile-img" />
+                        <img src="{{ asset(Auth::guard('persona')->user()->persona_foto) }}" alt="Imagen de perfil" class="img-thumbnail custom-profile-img" />
                     </div>
                     <div class="col-sm-4 col-xs-3"></div>
                 </div>
             </div>
 
             <div class="list-group">
+                <a href="{{ route('inicio') }}" class="list-group-item {{ (Request::route()->getName() == 'inicio')?'active':'' }}">Elecciones</a>
+                <a href="{{ route('profile') }}" class="list-group-item {{ (Request::route()->getName() == 'profile')?'active':'' }}">Ajustes</a>
+                @if(Auth::guard('persona')->user()->tipo_persona_id == 6)
                 <a href="{{ route('admin.persona.index') }}" class="list-group-item">Panel de administracion</a>
+                @endif
             </div>
         </div>
     </div>

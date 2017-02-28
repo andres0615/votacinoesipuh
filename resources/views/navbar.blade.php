@@ -39,8 +39,10 @@
                         Perfil <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
+                        @if(Auth::guard('persona')->user()->tipo_persona_id != 6 || (Auth::guard('persona')->user()->tipo_persona_id == 6 && session()->exists('menu') && session()->get('menu') != 'auxiliar'))
                         <li><a href="{{ route('inicio') }}">Mi cuenta</a></li>
                         <li class="divider" ></li>
+                        @endif
                         <li><a href="{{ url('/logout') }}"
                                onclick="event.preventDefault();
                              document.getElementById('logout-form').submit();" >Salir</a>

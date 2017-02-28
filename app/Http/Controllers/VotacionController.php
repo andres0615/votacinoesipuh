@@ -18,6 +18,8 @@ class VotacionController extends Controller
 
         $data = array();
 
+        $data["elecciones"] = collect(array());
+
         if($persona->persona_activa == true && $persona->persona_ingreso == true){
             //$elecciones = Eleccion::orderBy('eleccion_nombre', 'ASC')->paginate(5);
             $data["elecciones"] =   DB::table('eleccion')

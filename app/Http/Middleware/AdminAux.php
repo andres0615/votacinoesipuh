@@ -17,10 +17,17 @@ class AdminAux
     public function handle($request, Closure $next)
     {
         //dd(Auth::guard('persona')->check());
-        if(Auth::guard('persona')->check()){
-            return $next($request);
+        $persona = Auth::guard('persona')->user();
+
+        if($persona->tipo_persona_id == 6){
+            if(session()->has('menu')){
+                return $next($request);
+            } else {
+                return redirect()->route('authshowvalidation');
+            }
         } else {
-            return redirect()->route('login');
+            return redirect()->route('inicio');
         }
+        
     }
 }

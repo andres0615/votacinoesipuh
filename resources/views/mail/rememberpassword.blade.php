@@ -1,0 +1,1 @@
+Tu contraseña es {{ $persona->persona_codigo_alterno }}

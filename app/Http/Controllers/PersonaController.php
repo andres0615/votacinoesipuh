@@ -11,6 +11,8 @@ use App\TipoPersona;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\DB;
+use App\Mail\OrderShipped;
+use Illuminate\Support\Facades\Mail;
 
 class PersonaController extends BaseController
 {
@@ -182,10 +184,53 @@ class PersonaController extends BaseController
     return view('admin.persona.ingreso');
   }
 
-  public function getIdentificacionesJson(){
-    $identificaciones = Persona::select(["persona_identificacion"])->get()->pluck('persona_identificacion')->toArray();
+  public function ingreso(Request $request){
+  try{
+
+      $persona = Persona::where('persona_identificacion', $request->persona_identificacion)->first();
+
+      if(is_object($persona)){
+        $persona->persona_ingreso = isset($request->persona_ingreso);
+        $persona->save();
+
+        Flash('Proceso exitoso', 'success');
+        return redirect()->route('admin.persona.ingreso');
+
+        //dd($request->all());
+      } else {
+        Flash('Identificacion no encontrada', 'danger');
+        return redirect()->route('admin.persona.ingreso');
+      }
+    
+
+    } catch(\Exception $e){
+      Flash('Ha ocurrido un error: ' . $e->getMessage(), 'danger');
+
+      return redirect()->route('admin.persona.ingreso');
+    }
+
+  }
+
+  public function getIdentificacionesJson($text = null){
+    $identificaciones = Persona::select(["persona_identificacion",'persona_ingreso'])
+    ->where('persona_identificacion','like',$text.'%')
+    ->get()/*->pluck('persona_identificacion')*/->toArray();
 
     return response($identificaciones);
+  }
+
+  public function profile(){
+    return view('admin.persona.updateprofile');
+  }
+
+  public function profileUpdate(){
+
+  }
+
+  public function testmail(){
+    $persona = Persona::find(4);
+
+    Mail::to($persona->persona_email)->send(new OrderShipped($persona));
   }
 
 }

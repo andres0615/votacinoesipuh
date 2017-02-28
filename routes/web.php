@@ -25,7 +25,9 @@ Route::group(['middleware' => ['auth']], function(){
 
   Route::group(['middleware' => ['auth.admin.aux']], function(){
 
-    Route::get('/admin/persona/identificaciones', ["as" => "admin.persona.identificaciones", "uses" => "PersonaController@getIdentificacionesJson"]);
+    Route::post('/admin/aux/persona/ingreso/proccess', ["as" => "admin.persona.ingreso.proccess", "uses" => "PersonaController@ingreso"]);
+    
+    Route::get('/admin/persona/identificaciones/{text?}', ["as" => "admin.persona.identificaciones", "uses" => "PersonaController@getIdentificacionesJson"]);
 
     Route::get('/admin/aux/persona/ingreso',["as" => "admin.persona.ingreso", "uses" => "PersonaController@ingresoForm"]);
 
@@ -67,12 +69,12 @@ Route::group(['middleware' => ['auth']], function(){
   
   });
 
-  Route::get('/profile', ["as" => "profile", function(){
-    return view('admin.persona.menu');
-  }]);
+  Route::get('/profile', ["as" => "profile", "uses" => "PersonaController@profile"]);
+  Route::post('/profile/update', ["as" => "profile.update", "uses" => "PersonaController@profileUpdate"]);
 
   //Route::get('/', ["as" => "inicio",'uses' => 'VotacionController@index']);
   Route::get('/', ["as" => "inicio",'uses' => 'VotacionController@index']);
+
   Route::get('/uieleccion/{eleccion_codigo}', ["as" => "uieleccion",'uses' => 'VotacionController@eleccion']);
 
 });
@@ -87,4 +89,9 @@ Route::get('/test',[function(){
   //session(['test' => 'valor']);
   //dd(Request::session()->all());
   //dd(session()->all());
+
+
+
 }]);
+
+Route::get('/test2', 'PersonaController@testmail');
