@@ -29,7 +29,7 @@ class Authenticate
                 return redirect()->route('authshowvalidation');
             }
 
-            if($persona->user()->tipo_persona_id == 6 && session()->has('menu') && session()->get('menu') == 'auxiliar' && !in_array($request->route()->getName(),array('admin.persona.ingreso','admin.persona.identificaciones'))){
+            if($persona->user()->tipo_persona_id == 6 && session()->has('menu') && session()->get('menu') == 'auxiliar' && !in_array($request->route()->getName(),array('admin.persona.ingreso','admin.persona.identificaciones','admin.persona.ingreso.proccess'))){
                 return redirect()->route('admin.persona.ingreso');
             } else {
                 return $next($request);
