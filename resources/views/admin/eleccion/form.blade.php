@@ -14,7 +14,7 @@
     <div class="panel-body">
         {{-- <form role="form" method="post" action="{{ $action }}" id="form" name="form" novalidate > --}}
             @if(isset($eleccion))
-            {!! Form::model($eleccion, ['route' => ['admin.eleccion.update',$id], 'class' => 'form', 'files' => true, 'novalidate' => 'novalidate']) !!}
+            {!! Form::model($eleccion, ['route' => ['admin.eleccion.update',$id], 'class' => 'form', 'files' => true, 'novalidate' => 'novalidate', 'id' => "form"]) !!}
             @else
             {!! Form::open(['route' => 'admin.eleccion.store', 'class' => 'form', 'files' => true, 'novalidate' => 'novalidate', 'id' => "form"]) !!}
             @endif

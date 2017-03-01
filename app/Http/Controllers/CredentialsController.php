@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\OrderShipped;
+use Illuminate\Support\Facades\Mail;
 
 class CredentialsController extends BaseController
 {
@@ -33,6 +35,31 @@ class CredentialsController extends BaseController
 		} elseif($opcion == "auxiliar"){
 			return redirect()->route('admin.persona.ingreso');
 		}
+  }
+
+  public function showForgetPassword(){
+    return view('forgetpassword');
+  }
+
+  public function proccessForgetPassword(Request $request){
+    try{
+
+    $persona = Persona::where('persona_identificacion', $request->persona_identificacion)->first();
+
+    if(is_object($persona)){
+      Mail::to($persona->persona_email)->send(new OrderShipped($persona));
+      Flash('La contraseña ha sido enviada a tu correo electronico', 'success');
+      return redirect()->route('login');
+    } else {
+      Flash('Identificacion no encontrada', 'danger');
+      return redirect()->route('forgetpassword');
+    }
+
+    } catch(\Exception $e){
+      Flash('Ha ocurrido un error: ' . $e->getMessage(), 'danger');
+      return redirect()->route('forgetpassword');
+    }
+
   }
 
 }

@@ -70,7 +70,7 @@ Route::group(['middleware' => ['auth']], function(){
   });
 
   Route::get('/profile', ["as" => "profile", "uses" => "PersonaController@profile"]);
-  Route::post('/profile/update', ["as" => "profile.update", "uses" => "PersonaController@profileUpdate"]);
+  Route::post('/profile/update/{id}', ["as" => "profile.update", "uses" => "PersonaController@profileUpdate"]);
 
   //Route::get('/', ["as" => "inicio",'uses' => 'VotacionController@index']);
   Route::get('/', ["as" => "inicio",'uses' => 'VotacionController@index']);
@@ -83,6 +83,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
+Route::get('/forgetpassword', ["as" => "forgetpassword", "uses" => 'CredentialsController@showForgetPassword']);
+
+Route::post('/forgetpassword/proccess', ["as" => "forgetpassword.proccess", "uses" => 'CredentialsController@proccessForgetPassword']);
+
 Route::get('/test',[function(){
   //return view('auth.authadmin');
   //Request::session('test','valor');
@@ -90,6 +94,9 @@ Route::get('/test',[function(){
   //dd(Request::session()->all());
   //dd(session()->all());
 
+  /*$data["persona"] = App\Persona::find(26);
+
+  return view('mail.rememberpassword',$data);*/
 
 
 }]);

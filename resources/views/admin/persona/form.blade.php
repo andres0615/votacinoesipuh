@@ -12,7 +12,7 @@
     <div class="panel-body">
         {{-- <form role="form" method="post" action="{{ $action }}" id="form" name="form" novalidate > --}}
             @if(isset($persona))
-            {!! Form::model($persona, ['route' => ['admin.persona.update',$id], 'class' => 'form', 'files' => true, 'novalidate' => 'novalidate']) !!}
+            {!! Form::model($persona, ['route' => ['admin.persona.update',$id], 'class' => 'form', 'files' => true, 'novalidate' => 'novalidate', 'id' => "form"]) !!}
             @else
             {!! Form::open(['route' => 'admin.persona.store', 'class' => 'form', 'files' => true, 'novalidate' => 'novalidate', 'id' => "form"]) !!}
             @endif
@@ -79,6 +79,17 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-md-12 col-xs-12">
+                    <div class="form-group">
+                        <label>Correo:</label>
+                        {!! Form::input('email', 'persona_email', null, ['class'=> 'form-control', 'id' => "persona_email"]) !!}
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-md-12 col-xs-12">
+                </div>
+            </div>
+            <br />
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <input type="submit" value="Grabar" class="btn cbtn-default hidden-xs" />

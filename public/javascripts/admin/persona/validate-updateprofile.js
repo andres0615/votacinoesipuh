@@ -1,31 +1,13 @@
 $().ready(function(){
 
-  $('#form').validate({
+  var validate = $('#form').validate({
     //debug: true,
     errorClass: "has-error",
     rules: {
-      persona_nombre: "required",
-      persona_apellido: "required",
-      persona_codigo_alterno: "required",
-      tipo_persona_id: "required",
-      tipo_persona_id: "required",
-      persona_identificacion: "required",
-      persona_email: {
-        required: true,
-        email: true
-      }
     },
     messages: {
-      persona_nombre: "Por favor ingrese el nombre",
-      persona_apellido: "Por favor ingrese el apellido",
       persona_codigo_alterno: "Este campo es requerido",
-      tipo_persona_id: "Este campo es requerido",
-      tipo_persona_id: "Este campo es requerido",
-      persona_identificacion: "Este campo es requerido",
-      persona_email: {
-        required: "Este campo es requerido",
-        email: "Este email no es valido"
-      }
+      persona_codigo_alterno_confirm: "Este campo es requerido"
     },
     showErrors: function(errorMap, errorList){
       //console.log(errorList);
@@ -86,6 +68,43 @@ $().ready(function(){
       }
     }
   });
+
+//console.log(validate.settings);
+
+$('#persona_codigo_alterno').change(function(){
+
+  var value = $(this).val();
+
+  if(value.length > 0){
+    $.fn.validatePasswords();
+  } else {
+    $.fn.dontValidatePasswords();
+  }
+
+});
+
+$('#persona_codigo_alterno_confirm').change(function(){
+
+  var value = $(this).val();
+
+  if(value.length > 0){
+    $.fn.validatePasswords();
+  } else {
+    $.fn.dontValidatePasswords();
+  }
+
+});
+
+$.fn.validatePasswords = function(){
+  validate.settings.rules = {
+    persona_codigo_alterno: "required",
+    persona_codigo_alterno_confirm: "required"
+  };
+};
+
+$.fn.dontValidatePasswords = function(){
+  validate.settings.rules = {};
+};
 
 });
 

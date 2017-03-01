@@ -121,6 +121,7 @@ class PersonaController extends BaseController
     $persona->persona_activa = isset($request->persona_activa);
     $persona->persona_ingreso = isset($request->persona_ingreso);
     $persona->persona_identificacion = $request->persona_identificacion;
+    $persona->persona_email = $request->persona_email;
 
     $imagen = $request->file('persona_foto');
 
@@ -205,7 +206,6 @@ class PersonaController extends BaseController
 
     } catch(\Exception $e){
       Flash('Ha ocurrido un error: ' . $e->getMessage(), 'danger');
-
       return redirect()->route('admin.persona.ingreso');
     }
 
@@ -223,7 +223,46 @@ class PersonaController extends BaseController
     return view('admin.persona.updateprofile');
   }
 
-  public function profileUpdate(){
+  public function profileUpdate(Request $request, $id){
+    try{
+
+    $persona = Persona::find($id);
+
+    if($request->persona_codigo_alterno != null){
+      if($request->persona_codigo_alterno == $request->persona_codigo_alterno_confirm){
+        $persona->persona_codigo_alterno = $request->persona_codigo_alterno;
+      } else {
+        Flash('Las contraseñas no coinciden', 'danger');
+        return redirect()->route('profile');
+      }
+    }
+
+    $imagen = $request->file('persona_foto');
+
+    //dd($imagen);
+
+    if ($imagen != null){
+      if(in_array($imagen->getMimeType(), array("image/jpeg", "image/png"))){
+        $nombre_imagen = 'app/persona_foto/' . str_random(5) . '-' . str_replace(' ', '', $imagen->getClientOriginalName());
+        $path = public_path($nombre_imagen);
+        Image::make($imagen->getRealPath())->resize(400, 400)->save($path);
+        $persona->persona_foto = $nombre_imagen;
+      } else {
+        throw new \Exception("La imagen debe ser en formato png o jpg");
+      }
+    }
+
+    $persona->save();
+
+    Flash('Sus datos se actualizaron correctamente.', 'success');
+
+    return redirect()->route('profile');
+
+    } catch(\Exception $e){
+      Flash('Ha ocurrido un error: ' . $e->getMessage(), 'danger');
+
+      return redirect()->route('profile');
+    }
 
   }
 

@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Test</title>
+    <title>Ipuh</title>
+    <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link href="https://fonts.googleapis.com/css?family=Arimo" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('stylesheets/font-awesome/font-awesome.css') }}">
