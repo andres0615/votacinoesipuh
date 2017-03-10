@@ -48,6 +48,8 @@ class VotacionController extends Controller
                                 ->where('eleccion_persona.eleccion_id', $eleccion_codigo)
                                 ->get();
 
+        //dd($data);
+
         return view('admin.persona.votacionui',$data);
     }
 

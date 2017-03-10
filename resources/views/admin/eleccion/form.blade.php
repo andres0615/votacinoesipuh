@@ -54,11 +54,16 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <input type="submit" value="Grabar" class="btn cbtn-default hidden-xs" />
-                    <input type="submit" value="Grabar" class="btn cbtn-default btn-block visible-xs" />
+                    <input type="submit" value="Grabar" class="btn cbtn-default btn-block visible-xs spacer" />
                     {{ Form::token() }}
                     @if($edit)
                         <input type="hidden" name="_method" value="put" />
-                        <a href="{{ route('admin.eleccion.reporte', ['eleccion_id' => $id]) }}" class="btn cbtn-default">Generar reporte</a>
+                        <br class="visible-xs" />
+                        <a href="{{ route('admin.eleccion.reporte', ['eleccion_id' => $id]) }}" class="btn cbtn-default hidden-xs">Generar reporte</a>
+                        <a href="{{ route('admin.eleccion.reporte', ['eleccion_id' => $id]) }}" class="btn cbtn-default btn-block visible-xs">Generar reporte</a>
+                        <a href="{{ route('admin.eleccion.reporte.detallado', ['eleccion_id' => $id]) }}" class="btn cbtn-default hidden-xs">Generar reporte detallado</a>
+                        <br class="visible-xs" />
+                        <a href="{{ route('admin.eleccion.reporte.detallado', ['eleccion_id' => $id]) }}" class="btn cbtn-default btn-block visible-xs spacer">Generar reporte detallado</a>
                     @endif
                 </div>
             </div>

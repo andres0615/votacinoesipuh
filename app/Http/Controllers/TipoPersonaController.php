@@ -29,14 +29,14 @@ class TipoPersonaController extends Controller
             $tipo_persona->save();
             Flash('El tipo de persona se creo correctamente.', 'success');
 
-            return redirect()->route('admin.tipopersona.index');
+            return redirect()->route('admin.tipopersona.edit',["tipopersona" => $tipo_persona->tipo_persona_id]);
         } catch(\Exception $e){
             //$error = new ErrorController();
             //$error->storeErrorException($e);
             //Flash($error->mensaje, 'danger');
             Flash('Ha ocurrido un error: ' . $e->getMessage(), 'danger');
 
-            return redirect()->route('admin.tipopersona.create');
+            return redirect()->route('admin.tipopersona.index');
         }
 
     }
@@ -75,7 +75,7 @@ class TipoPersonaController extends Controller
         $tipo_persona->save();
         Flash('El tipo de persona se creo correctamente.', 'success');
 
-        return redirect()->route('admin.tipopersona.index');
+        return redirect()->route('admin.tipopersona.edit',["tipopersona" => $tipo_persona->tipo_persona_id]);
 
     }
 

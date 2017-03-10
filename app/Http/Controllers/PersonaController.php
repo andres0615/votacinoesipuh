@@ -70,7 +70,7 @@ class PersonaController extends BaseController
       $persona->save();
       Flash('La persona se creo correctamente.', 'success');
 
-      return redirect()->route('admin.persona.index');
+      return redirect()->route('admin.persona.edit',["persona" => $persona->persona_id]);
     } catch(\Exception $e){
       //$error = new ErrorController();
       //$error->storeErrorException($e);
@@ -142,7 +142,7 @@ class PersonaController extends BaseController
     $persona->save();
     Flash('La persona se actualizo correctamente.', 'success');
 
-    return redirect()->route('admin.persona.index');
+    return redirect()->route('admin.persona.edit',["persona" => $persona->persona_id]);
 
   }
 

@@ -11,8 +11,19 @@
         <div class="list-group">
             @foreach($candidatos as $candidato)
                 <div class="list-group-item">
-                    <input type="radio" name="candidato_id" value="{{ $candidato->persona_id }}" />
-                    {{ $candidato->persona_nombre }}
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-md-12 col-xs-12">
+                            <input type="radio" name="candidato_id" value="{{ $candidato->persona_id }}" />
+                            {{ $candidato->persona_nombre }}
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-md-12 col-xs-12">
+                            @if($candidato->persona_foto != null)
+                                <div class="thumbnail">
+                                    <img src="{{ asset($candidato->persona_foto) }}" class="img-thumbnail">
+                                </div>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             @endforeach
             <input type="hidden" name="eleccion_id" value="{{ $eleccion->eleccion_id }}" >

@@ -26,6 +26,7 @@ class AdminAux
                 return redirect()->route('authshowvalidation');
             }
         } else {
+            dd("hola");
             return redirect()->route('inicio');
         }
         

@@ -59,6 +59,9 @@ Route::group(['middleware' => ['auth']], function(){
       Route::get('/eleccion/reporte/{eleccion_id}',["as" => 'eleccion.reporte',
         'uses' => 'EleccionController@reporte']);
 
+      Route::get('/eleccion/reportedetallado/{eleccion_id}',["as" => 'eleccion.reporte.detallado',
+        'uses' => 'EleccionController@reporteDetallado']);
+
       Route::resource('votacion', 'VotacionController');
 
     });
@@ -76,6 +79,8 @@ Route::group(['middleware' => ['auth']], function(){
   Route::get('/', ["as" => "inicio",'uses' => 'VotacionController@index']);
 
   Route::get('/uieleccion/{eleccion_codigo}', ["as" => "uieleccion",'uses' => 'VotacionController@eleccion']);
+
+  Route::post('/admin/votacion', ["as" => "admin.votacion.store", "uses" => "VotacionController@store"]);
 
 });
 
