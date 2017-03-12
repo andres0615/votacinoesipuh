@@ -28,7 +28,7 @@ class EleccionController extends Controller
         $data["candidatos"] = DB::table('persona')
         ->where('candidato', true)
         ->where('persona_activa', true)
-        ->select('persona_id', 'persona_nombre')
+        ->select('persona_id', 'persona_nombre','persona_apellido')
         ->get();
 
         //dd($candidatos);
@@ -90,7 +90,7 @@ class EleccionController extends Controller
         $data["candidatos"] = DB::table('persona')
             ->where('candidato', true)
             ->where('persona_activa', true)
-            ->select('persona_id', 'persona_nombre')
+            ->select('persona_id', 'persona_nombre', 'persona_apellido')
             ->get();
 
         $data["candidatos_elegidos"] = DB::table('eleccion_persona')

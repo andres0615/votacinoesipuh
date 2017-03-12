@@ -38,7 +38,7 @@
                         <label for="persona_nombre">Candidatos:</label>
                         <select id="candidatos-select" multiple="multiple" >
                             @foreach($candidatos as $candidato)
-                                <option value="{{ $candidato->persona_id }}">{{ $candidato->persona_nombre }}</option>
+                                <option value="{{ $candidato->persona_id }}">{{ $candidato->persona_nombre.' '.$candidato->persona_apellido }}</option>
                             @endforeach
                         </select>
                         <div id="candidatos">
@@ -95,7 +95,7 @@
         @foreach($resultados as $key => $resultado)
           <tr>
             <td>{{ ($key>0)?(($resultados[$key-1]->votos == $resultado->votos)?$count:++$count):++$count  }}</td>
-            <td>{{ $resultado->persona_nombre }}</td>
+            <td>{{ $resultado->persona_nombre.' '.$resultado->persona_apellido }}</td>
             <td>{{ $resultado->votos }}</td>
           </tr>
         @endforeach
