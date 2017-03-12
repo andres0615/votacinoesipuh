@@ -210,11 +210,13 @@ class EleccionController extends Controller
         $nombre = str_replace(' ', '_', $nombre);
         $nombre = $nombre.".xls";
 
+        $path = "reportes/".$nombre;
+
         //dd($nombre);
 
-        Storage::disk('local')->put($nombre, $content);
+        Storage::disk('local')->put($path, $content);
 
-        return response()->download($nombre, $nombre);
+        return response()->download($path, $nombre);
     }
 
     public function getResultados($id){
@@ -298,11 +300,13 @@ class EleccionController extends Controller
         $nombre = str_replace(' ', '_', $nombre);
         $nombre = $nombre."_detallado.xls";
 
+        $path = "reportes/".$nombre;
+
         //dd($nombre);
 
-        Storage::disk('local')->put($nombre, $content);
+        Storage::disk('local')->put($path, $content);
 
-        return response()->download($nombre, $nombre);
+        return response()->download($path, $nombre);
     
     }
 

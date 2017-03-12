@@ -301,11 +301,13 @@ class PersonaController extends BaseController
 
     $nombre = "reporte_general_personas.xls";
 
+    $path = "reportes/".$nombre;
+
     //dd($nombre);
 
-    Storage::disk('local')->put($nombre, $content);
+    Storage::disk('local')->put($path, $content);
 
-    return response()->download($nombre, $nombre);
+    return response()->download($path, $nombre);
 
   }
 
