@@ -64,6 +64,14 @@ Route::group(['middleware' => ['auth']], function(){
 
       Route::resource('votacion', 'VotacionController');
 
+      Route::post('persona/candidato',["as" => "persona.candidato", "uses" => "PersonaController@candidato"]);
+
+      Route::get('persona/reporte/general',["as" => 'persona.reporte.general',
+        'uses' => 'PersonaController@reporteGeneral']);
+
+      Route::get('persona/general/salida',["as" => 'persona.general.salida',
+        'uses' => 'PersonaController@salidaGeneral']);
+
     });
 
     //Route::resource('eleccion', 'VotacionController');

@@ -5,6 +5,27 @@
 @endsection('assets')
 
 @section('content')
+<div id="confirm-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="panel panel-custom-modal">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Confirmar</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="d-block">
+                        <p id="mensaje-confirmar-eliminar" class="text-center" ></p>
+                    </div>
+                    <div class="d-block text-center" id="confirm-buttons" >
+                        <button type="button" id="confirmar-si" class="btn cbtn-default" >Si</button>
+                        <button type="button" id="confirmar-no" class="btn cbtn-default" >No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         {{-- @include('flash::message') --}}

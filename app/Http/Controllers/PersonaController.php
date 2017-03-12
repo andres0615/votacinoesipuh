@@ -13,6 +13,8 @@ use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\DB;
 use App\Mail\OrderShipped;
 use Illuminate\Support\Facades\Mail;
+use Storage;
+use Resource;
 
 class PersonaController extends BaseController
 {
@@ -270,6 +272,54 @@ class PersonaController extends BaseController
     $persona = Persona::find(4);
 
     Mail::to($persona->persona_email)->send(new OrderShipped($persona));
+  }
+
+  public function candidato(Request $request){
+    $persona = Persona::find($request->persona_id);
+    $persona->candidato = $request->candidato;
+    $persona->save();
+    return response("true");
+  }
+
+  public function reporteGeneral(){
+
+    $personas = Persona::all();
+
+    $content = '';
+    $salto_linea = "\r\n";
+
+    $content .= "IDENTIFICACION,NOMBRE,APELLIDO,ACTIVO,INGRESO".$salto_linea;
+
+    foreach($personas as $persona){
+      $content .= $persona->persona_identificacion.',';
+      $content .= $persona->persona_nombre.',';
+      $content .= $persona->persona_apellido.',';
+      $content .= (($persona->persona_activa)?'SI':'NO').',';
+      $content .= (($persona->persona_ingreso)?'SI':'NO').',';
+      $content .= $salto_linea;
+    }
+
+    $nombre = "reporte_general_personas.xls";
+
+    //dd($nombre);
+
+    Storage::disk('local')->put($nombre, $content);
+
+    return response()->download($nombre, $nombre);
+
+  }
+
+  public function salidaGeneral(){
+    $personas = Persona::all();
+
+    foreach($personas as $persona){
+      $persona->persona_ingreso = false;
+      $persona->save();
+    }
+
+    Flash('Se le ha dado salida a todas las personas', 'success');
+    return redirect()->route('admin.persona.index');
+
   }
 
 }

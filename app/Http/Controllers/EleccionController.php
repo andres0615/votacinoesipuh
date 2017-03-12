@@ -26,7 +26,7 @@ class EleccionController extends Controller
         $data["activo"] = '';
 
         $data["candidatos"] = DB::table('persona')
-        ->where('tipo_persona_id', 2)
+        ->where('candidato', true)
         ->where('persona_activa', true)
         ->select('persona_id', 'persona_nombre')
         ->get();
@@ -88,7 +88,7 @@ class EleccionController extends Controller
         $data["id"] = $id;
 
         $data["candidatos"] = DB::table('persona')
-            ->where('tipo_persona_id', 2)
+            ->where('candidato', true)
             ->where('persona_activa', true)
             ->select('persona_id', 'persona_nombre')
             ->get();
@@ -199,7 +199,8 @@ class EleccionController extends Controller
         $content .= $salto_linea;
 
         foreach($this->getResultados($eleccion_id)->get() as $resultado){
-            $content .= implode(',', collect($resultado)->toArray());
+            //$content .= implode(',', collect($resultado)->toArray());
+            $content .= $resultado->persona_nombre . " " . $resultado->persona_apellido . ',' . $resultado->votos;
             $content .= $salto_linea;
         }
 
@@ -223,10 +224,11 @@ class EleccionController extends Controller
                                     $join->on('votacion.candidato_id', '=', 'eleccion_persona.persona_id')
                                     ->on('votacion.eleccion_id', '=', 'eleccion_persona.eleccion_id');
                                 })
-                            ->select('persona.persona_nombre',
+                            ->select('persona.persona_nombre','persona.persona_apellido',
                                 DB::raw('count(votacion.votacion_id) as votos'))
                             ->groupBy('votacion.candidato_id')
                             ->groupBy('persona.persona_nombre')
+                            ->groupBy('persona.persona_apellido')
                             ->orderBy('votos', 'desc')
                             ->orderBy('persona_nombre', 'asc')
                             ->where('eleccion_persona.eleccion_id',$id);
@@ -271,7 +273,7 @@ class EleccionController extends Controller
 
             foreach ($resultados_candidato as $item) {
                 if($key == 0){
-                    $content .= $item->candidato_nombre.','.$item->persona_nombre.$salto_linea;
+                    $content .= $item->candidato_nombre.' '.$item->candidato_apellido.','.$item->persona_nombre.' '.$item->persona_apellido.$salto_linea;
                 } else {
                     $content .= ','.$item->persona_nombre.$salto_linea;
                 }
@@ -312,7 +314,7 @@ class EleccionController extends Controller
                                     ->on('votacion.eleccion_id', '=', 'eleccion_persona.eleccion_id');
                                 })
                             ->leftJoin('persona','persona.persona_id', '=', 'votacion.persona_id')
-                            ->select('candidato.persona_nombre as candidato_nombre','candidato.persona_id as candidato_id','votacion.persona_id','persona.persona_id','persona.persona_nombre')
+                            ->select('candidato.persona_nombre as candidato_nombre','candidato.persona_apellido as candidato_apellido','candidato.persona_id as candidato_id','votacion.persona_id','persona.persona_id','persona.persona_nombre','persona.persona_apellido')
                             ->orderBy('persona_nombre', 'asc')
                             ->where('eleccion_persona.eleccion_id',$id);
     }

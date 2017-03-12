@@ -1,5 +1,9 @@
 @extends('admin.persona.profile')
 
+@section('assets2')
+    <script src="{{ asset('javascripts/admin/persona/votacionui.js') }}" ></script>
+@endsection('assets2')
+
 @section('votacionui')
 
 <div class="panel panel-custom-admin">
@@ -13,8 +17,10 @@
                 <div class="list-group-item">
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-md-12 col-xs-12">
-                            <input type="radio" name="candidato_id" value="{{ $candidato->persona_id }}" />
+                            <input type="radio" name="candidato_id" value="{{ $candidato->persona_id }}" class="candidato_input" />
+                            <label>
                             {{ $candidato->persona_nombre }}
+                            </label>
                         </div>
                         <div class="col-lg-6 col-md-6 col-md-12 col-xs-12">
                             @if($candidato->persona_foto != null)
@@ -29,8 +35,9 @@
             <input type="hidden" name="eleccion_id" value="{{ $eleccion->eleccion_id }}" >
             {{ Form::token() }}
         </div>
-        <input type="submit" value="Votar" class="btn cbtn-default hidden-xs" />
-                    <input type="submit" value="Votar" class="btn cbtn-default btn-block visible-xs" />
+        {{-- <input type="submit" value="Votar" class="btn cbtn-default hidden-xs" />
+                    <input type="submit" value="Votar" class="btn cbtn-default btn-block visible-xs" /> --}}
+        <button type="button" class="btn cbtn-default hidden-xs" data-toggle="modal" data-target="#confirm-modal" {{-- data-href="{{ route('admin.persona.destroy',['id' => $persona->persona_id]) }}" --}} >Votar</button>                                    
         </form>
     </div>
 </div>
