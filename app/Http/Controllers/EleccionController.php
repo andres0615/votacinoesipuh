@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Eleccion;
 use App\Votacion;
 use App\EleccionPersona;
+use App\TipoPersona;
 use Illuminate\Support\Facades\DB;
 use Storage;
 use Resource;
@@ -152,34 +153,35 @@ class EleccionController extends Controller
         DB::beginTransaction();
         try{
             foreach($request->ids as $id){
-                $persona = TipoPersona::find($id);
-                $persona->delete();
+                $this->deleteEleccion($id);
             }
             DB::commit();
-            Flash("El tipo de persona se elimino con exito", 'success');
+            Flash("Las elecicones se eliminaron con exito", 'success');
 
-            return redirect()->route('admin.tipopersona.index');
+            return redirect()->route('admin.eleccion.index');
 
         } catch(\Exception $e){
             Flash('Ha ocurrido un error: ' . $e->getMessage(), 'danger');
             DB::rollBack();
 
-            return redirect()->route('admin.tipopersona.create');
+            return redirect()->route('admin.eleccion.eleccion');
         }
     }
 
     public function destroy($id){
         try{
-            $persona = TipoPersona::find($id);
-            $persona->delete();
-            Flash("El tipo de persona se elimino con exito", 'success');
+            $eleccion = Eleccion::find($id);
 
-            return redirect()->route('admin.tipopersona.index');
+            $this->deleteEleccion($id);
+
+            Flash("La eleccion se elimino con exito", 'success');
+
+            return redirect()->route('admin.eleccion.index');
 
         } catch(\Exception $e){
             Flash('Ha ocurrido un error: ' . $e->getMessage(), 'danger');
 
-            return redirect()->route('admin.tipopersona.create');
+            return redirect()->route('admin.eleccion.index');
         }
     }
 
@@ -321,6 +323,25 @@ class EleccionController extends Controller
                             ->select('candidato.persona_nombre as candidato_nombre','candidato.persona_apellido as candidato_apellido','candidato.persona_id as candidato_id','votacion.persona_id','persona.persona_id','persona.persona_nombre','persona.persona_apellido')
                             ->orderBy('persona_nombre', 'asc')
                             ->where('eleccion_persona.eleccion_id',$id);
+    }
+
+    public function deleteEleccion($id){
+        $eleccion = Eleccion::find($id);
+
+        $candidatos = EleccionPersona::where('eleccion_id',$id)->get();
+        $votaciones = Votacion::where('eleccion_id',$id)->get();
+
+        foreach ($candidatos as $candidato) {
+            $candidato->delete();
+        }
+
+        foreach ($votaciones as $votacion) {
+            $votacion->delete();
+        }
+
+        $eleccion->delete();
+
+        return true;
     }
 
 }

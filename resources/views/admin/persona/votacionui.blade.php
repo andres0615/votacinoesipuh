@@ -35,9 +35,8 @@
             <input type="hidden" name="eleccion_id" value="{{ $eleccion->eleccion_id }}" >
             {{ Form::token() }}
         </div>
-        {{-- <input type="submit" value="Votar" class="btn cbtn-default hidden-xs" />
-                    <input type="submit" value="Votar" class="btn cbtn-default btn-block visible-xs" /> --}}
-        <button type="button" class="btn cbtn-default hidden-xs" data-toggle="modal" data-target="#confirm-modal" {{-- data-href="{{ route('admin.persona.destroy',['id' => $persona->persona_id]) }}" --}} >Votar</button>                                    
+        <button type="button" class="btn cbtn-default hidden-xs" data-toggle="modal" data-target="#confirm-modal" {{-- data-href="{{ route('admin.persona.destroy',['id' => $persona->persona_id]) }}" --}} >Votar</button>
+        <button type="button" class="btn cbtn-default visible-xs btn-block" data-toggle="modal" data-target="#confirm-modal" {{-- data-href="{{ route('admin.persona.destroy',['id' => $persona->persona_id]) }}" --}} >Votar</button>                                    
         </form>
     </div>
 </div>
