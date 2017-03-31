@@ -19,7 +19,7 @@
                         <div class="col-lg-6 col-md-6 col-md-12 col-xs-12">
                             <input type="radio" name="candidato_id" value="{{ $candidato->persona_id }}" class="candidato_input" />
                             <label>
-                            {{ $candidato->persona_nombre }}
+                            {{ $candidato->persona_nombre }} {{ $candidato->persona_apellido }}
                             </label>
                         </div>
                         <div class="col-lg-6 col-md-6 col-md-12 col-xs-12">

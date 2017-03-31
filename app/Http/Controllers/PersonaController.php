@@ -288,14 +288,19 @@ class PersonaController extends BaseController
     $content = '';
     $salto_linea = "\r\n";
 
-    $content .= "IDENTIFICACION,NOMBRE,APELLIDO,ACTIVO,INGRESO".$salto_linea;
+    $content .= "IDENTIFICACION,NOMBRE,APELLIDO,ACTIVO,INGRESO,TIPO PERSONA".$salto_linea;
+    $tipos_persona = TipoPersona::all();
 
     foreach($personas as $persona){
+      //$tipo_persona = TipoPersona::where('tipo_persona_id',$persona->tipo_persona_id)->first();
+      $tipo_persona = $tipos_persona->where('tipo_persona_id', $persona->tipo_persona_id)->first();
+
       $content .= $persona->persona_identificacion.',';
       $content .= $persona->persona_nombre.',';
       $content .= $persona->persona_apellido.',';
       $content .= (($persona->persona_activa)?'SI':'NO').',';
       $content .= (($persona->persona_ingreso)?'SI':'NO').',';
+      $content .= $tipo_persona->tipo_persona_nombre.',';      
       $content .= $salto_linea;
     }
 
@@ -322,6 +327,59 @@ class PersonaController extends BaseController
     Flash('Se le ha dado salida a todas las personas', 'success');
     return redirect()->route('admin.persona.index');
 
+  }
+
+  public function reportePersonasIngreso(){
+
+    $content = '';
+    $salto_linea = "\r\n";
+
+    $content .= "TIPO PERSONA, NUMERO DE PERSONAS".$salto_linea;
+
+    $personas = Persona::all();
+    $tipos_persona = TipoPersona::all();
+
+    $content .=  'ACTIVAS INGRESADAS'.$salto_linea;
+
+    foreach ($tipos_persona as $tipo_persona) {
+      $count = $personas->where('persona_activa', true)->where('persona_ingreso', true)->where('tipo_persona_id', $tipo_persona->tipo_persona_id)->count();
+
+      $content .= $tipo_persona->tipo_persona_nombre.',';
+      $content .= $count;
+      $content .= $salto_linea;
+    }
+
+    $content .=  'ACTIVAS NO INGRESADAS'.$salto_linea;
+
+    foreach ($tipos_persona as $tipo_persona) {
+      $count = $personas->where('persona_activa', true)->where('persona_ingreso', false)->where('tipo_persona_id', $tipo_persona->tipo_persona_id)->count();
+
+      $content .= $tipo_persona->tipo_persona_nombre.',';
+      $content .= $count;
+      $content .= $salto_linea;
+    }
+
+    $content .=  'INACTIVAS'.$salto_linea;
+
+    foreach ($tipos_persona as $tipo_persona) {
+      $count = $personas->where('persona_activa', false)->where('tipo_persona_id', $tipo_persona->tipo_persona_id)->count();
+
+      $content .= $tipo_persona->tipo_persona_nombre.',';
+      $content .= $count;
+      $content .= $salto_linea;
+    }
+
+    //dd($content);
+
+    $nombre = "reporte_ingreso_personas.xls";
+
+    $path = "reportes/".$nombre;
+
+    //dd($nombre);
+
+    Storage::disk('local')->put($path, $content);
+
+    return response()->download($path, $nombre);
   }
 
 }

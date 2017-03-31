@@ -69,6 +69,9 @@ Route::group(['middleware' => ['auth']], function(){
       Route::get('persona/reporte/general',["as" => 'persona.reporte.general',
         'uses' => 'PersonaController@reporteGeneral']);
 
+      Route::get('persona/reporte/ingreso',["as" => 'persona.reporte.ingreso',
+        'uses' => 'PersonaController@reportePersonasIngreso']);
+
       Route::get('persona/general/salida',["as" => 'persona.general.salida',
         'uses' => 'PersonaController@salidaGeneral']);
 

@@ -273,15 +273,15 @@ class EleccionController extends Controller
 
             $resultados_candidato = $resultados->where('candidato_id',$candidato_id);
 
-            $key = 0;
+            //$key = 0;
 
             foreach ($resultados_candidato as $item) {
-                if($key == 0){
+                //if($key == 0){
                     $content .= $item->candidato_nombre.' '.$item->candidato_apellido.','.$item->persona_nombre.' '.$item->persona_apellido.$salto_linea;
-                } else {
+                /*} else {
                     $content .= ','.$item->persona_nombre.$salto_linea;
                 }
-                $key++;
+                $key++;*/
             }
 
         }

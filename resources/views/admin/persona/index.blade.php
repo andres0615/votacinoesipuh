@@ -14,12 +14,14 @@
                 <a href="{{ route('admin.persona.create') }}" class="btn cbtn-success" ><i class="fa fa-plus"></i> Crear</a>
                 <button type="button" class="btn cbtn-danger btn-eliminar-masivo" data-href="{{ route('admin.persona.destroyMass') }}" data-toggle="modal" data-target="#delete-modal" ><i class="fa fa-trash-o"></i> Eliminar</button>
                 <a href="{{ route('admin.persona.reporte.general') }}" class="btn cbtn-default" ><i class="fa fa-list-alt"></i> Reporte general</a>
+                <a href="{{ route('admin.persona.reporte.ingreso') }}" class="btn cbtn-default" ><i class="fa fa-list-alt"></i> Ingreso personas</a>
                 <a href="{{ route('admin.persona.general.salida') }}" class="btn cbtn-default" ><i class="fa fa-sign-out"></i> Dar salida general</a>
             </div>
             <div class="d-block visible-xs">
                 <a href="{{ route('admin.persona.create') }}" class="btn cbtn-success btn-block" ><i class="fa fa-plus"></i> Crear</a>
                 <button type="button" class="btn cbtn-danger btn-block btn-eliminar-masivo" data-href="{{ route('admin.persona.destroyMass') }}" data-toggle="modal" data-target="#delete-modal" ><i class="fa fa-trash-o"></i> Eliminar</button>
                 <a href="{{ route('admin.persona.reporte.general') }}" class="btn cbtn-default btn-block" ><i class="fa fa-list-alt"></i> Reporte general</a>
+                <a href="{{ route('admin.persona.reporte.ingreso') }}" class="btn cbtn-default btn-block" ><i class="fa fa-list-alt"></i> Ingreso personas</a>
                 <a href="{{ route('admin.persona.general.salida') }}" class="btn cbtn-default btn-block" ><i class="fa fa-sign-out"></i> Dar salida general</a>
             </div>
         </div>
