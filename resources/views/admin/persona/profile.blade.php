@@ -59,6 +59,12 @@
                 @if(Auth::guard('persona')->user()->tipo_persona_id == 6)
                 <a href="{{ route('admin.persona.index') }}" class="list-group-item">Panel de administracion</a>
                 @endif
+                <a href="{{ url('/logout') }}" class="list-group-item"
+                       onclick="event.preventDefault();
+                     document.getElementById('logout-form').submit();" >Salir</a>
+                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
             </div>
         </div>
     </div>
