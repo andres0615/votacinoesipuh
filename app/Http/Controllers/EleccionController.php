@@ -100,6 +100,10 @@ class EleccionController extends Controller
 
         $data["resultados"] = $this->getResultados($id)->get();
 
+        //dd($this->getResultados($id)->toSql());
+        //dd($this->getResultadosSinVotar($id)->toSql());
+        $data["resultados_sin_votar"] = $this->getResultadosSinVotar($id)->get();
+
         //dd($data);
 
         $data["count"] = 0;
@@ -342,6 +346,18 @@ class EleccionController extends Controller
         $eleccion->delete();
 
         return true;
+    }
+
+    public function getResultadosSinVotar($id){
+        return  DB::table('persona')
+                ->leftJoin('tipo_persona','tipo_persona.tipo_persona_id','=','persona.tipo_persona_id')
+                ->leftJoin('votacion',function($join) use($id){
+                    $join->on('votacion.persona_id','=','persona.persona_id')
+                        ->on('votacion.eleccion_id','=',DB::raw($id));
+                })
+                ->select('tipo_persona.tipo_persona_nombre',DB::raw('count(persona.persona_id) as personas'))
+                ->groupBy('tipo_persona.tipo_persona_nombre')
+                ->where('votacion.votacion_id',null);
     }
 
 }

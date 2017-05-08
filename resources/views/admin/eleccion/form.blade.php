@@ -61,9 +61,9 @@
                         <br class="visible-xs" />
                         <a href="{{ route('admin.eleccion.reporte', ['eleccion_id' => $id]) }}" class="btn cbtn-default hidden-xs">Generar reporte</a>
                         <a href="{{ route('admin.eleccion.reporte', ['eleccion_id' => $id]) }}" class="btn cbtn-default btn-block visible-xs">Generar reporte</a>
-                        <a href="{{ route('admin.eleccion.reporte.detallado', ['eleccion_id' => $id]) }}" class="btn cbtn-default hidden-xs">Generar reporte detallado</a>
+                        {{-- <a href="{{ route('admin.eleccion.reporte.detallado', ['eleccion_id' => $id]) }}" class="btn cbtn-default hidden-xs">Generar reporte detallado</a>
                         <br class="visible-xs" />
-                        <a href="{{ route('admin.eleccion.reporte.detallado', ['eleccion_id' => $id]) }}" class="btn cbtn-default btn-block visible-xs spacer">Generar reporte detallado</a>
+                        <a href="{{ route('admin.eleccion.reporte.detallado', ['eleccion_id' => $id]) }}" class="btn cbtn-default btn-block visible-xs spacer">Generar reporte detallado</a> --}}
                     @endif
                 </div>
             </div>
@@ -80,7 +80,7 @@
 
 <div class="panel panel-custom-admin">
     <div class="panel-heading">
-        <h3 class="panel-title" >Resultados</h3>
+        <h3 class="panel-title" >Res<a href="{{ route('admin.eleccion.reporte.detallado', ['eleccion_id' => $id]) }}">u</a>ltados</h3>
     </div>
     <div class="panel-body">
         <table class="table">
@@ -97,6 +97,30 @@
             <td>{{ ($key>0)?(($resultados[$key-1]->votos == $resultado->votos)?$count:++$count):++$count  }}</td>
             <td>{{ $resultado->persona_nombre.' '.$resultado->persona_apellido }}</td>
             <td>{{ $resultado->votos }}</td>
+          </tr>
+        @endforeach
+        </tbody>
+      </table>
+    </div>
+</div>
+
+<div class="panel panel-custom-admin">
+    <div class="panel-heading">
+        <h3 class="panel-title" >Sin votar</h3>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+        <thead>
+          <tr>
+            <th>Tipo de persona</th>
+            <th>Candtidad</th>
+          </tr>
+        </thead>
+        <tbody>
+        @foreach($resultados_sin_votar as $key => $resultado)
+          <tr>
+            <td>{{ $resultado->tipo_persona_nombre }}</td>
+            <td>{{ $resultado->personas }}</td>
           </tr>
         @endforeach
         </tbody>
