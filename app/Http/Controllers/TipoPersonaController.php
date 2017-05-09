@@ -26,6 +26,7 @@ class TipoPersonaController extends Controller
         try{
 
             $tipo_persona = new TipoPersona($request->all());
+            $tipo_persona->tipo_persona_votacion = isset($request->tipo_persona_votacion);
             $tipo_persona->save();
             Flash('El tipo de persona se creo correctamente.', 'success');
 
@@ -71,6 +72,7 @@ class TipoPersonaController extends Controller
         $tipo_persona = TipoPersona::find($id);
 
         $tipo_persona->tipo_persona_nombre = $request->tipo_persona_nombre;
+        $tipo_persona->tipo_persona_votacion = isset($request->tipo_persona_votacion);
 
         $tipo_persona->save();
         Flash('El tipo de persona se creo correctamente.', 'success');

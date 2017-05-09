@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Eleccion;
 use App\EleccionPersona;
 use App\Persona;
+use App\TipoPersona;
 use App\Votacion;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -14,13 +15,14 @@ class VotacionController extends Controller
 {
     public function index(){
         $persona = Auth::guard('persona')->user();
+        $tipo_persona = TipoPersona::find($persona->tipo_persona_id);
         //dd(collect($persona));
 
         $data = array();
 
         $data["elecciones"] = collect(array());
 
-        if($persona->persona_activa == true && $persona->persona_ingreso == true){
+        if(($persona->persona_activa == true) && ($persona->persona_ingreso == true) && ($tipo_persona->tipo_persona_votacion == true)){
             //$elecciones = Eleccion::orderBy('eleccion_nombre', 'ASC')->paginate(5);
             $data["elecciones"] =   DB::table('eleccion')
                             ->leftJoin('votacion', function ($join) use ($persona) {

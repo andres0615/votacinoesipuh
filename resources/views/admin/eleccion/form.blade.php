@@ -64,6 +64,9 @@
                         {{-- <a href="{{ route('admin.eleccion.reporte.detallado', ['eleccion_id' => $id]) }}" class="btn cbtn-default hidden-xs">Generar reporte detallado</a>
                         <br class="visible-xs" />
                         <a href="{{ route('admin.eleccion.reporte.detallado', ['eleccion_id' => $id]) }}" class="btn cbtn-default btn-block visible-xs spacer">Generar reporte detallado</a> --}}
+                        <a href="{{ route('admin.eleccion.reporte.resumen', ['id' => $id]) }}" class="btn cbtn-default hidden-xs">Generar reporte resumen</a>
+                        <br class="visible-xs" />
+                        <a href="{{ route('admin.eleccion.reporte.resumen', ['id' => $id]) }}" class="btn cbtn-default btn-block visible-xs spacer">Generar reporte resumen</a>
                     @endif
                 </div>
             </div>

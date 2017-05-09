@@ -24,6 +24,10 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-md-12 col-xs-12">
+                    <div class="form-group">
+                        <label>Votacion:</label>
+                        {!! Form::input('checkbox', 'tipo_persona_votacion', null, ['id' => 'tipo_persona_votacion', 'class'=> 'form-control', ($tipo_persona->tipo_persona_votacion)?'checked':null]) !!}
+                    </div>
                 </div>
             </div>
             <div class="row">

@@ -304,7 +304,7 @@ class PersonaController extends BaseController
       $content .= $salto_linea;
     }
 
-    $nombre = "reporte_general_personas.xls";
+    $nombre = "reporte_general_personas.txt";
 
     $path = "reportes/".$nombre;
 
@@ -371,7 +371,7 @@ class PersonaController extends BaseController
 
     //dd($content);
 
-    $nombre = "reporte_ingreso_personas.xls";
+    $nombre = "reporte_ingreso_personas.txt";
 
     $path = "reportes/".$nombre;
 

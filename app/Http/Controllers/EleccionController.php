@@ -214,7 +214,7 @@ class EleccionController extends Controller
 
         $nombre = strtolower($eleccion->eleccion_nombre);
         $nombre = str_replace(' ', '_', $nombre);
-        $nombre = $nombre.".xls";
+        $nombre = $nombre.".txt";
 
         $path = "reportes/".$nombre;
 
@@ -260,7 +260,8 @@ class EleccionController extends Controller
 
         $eleccion = Eleccion::find($eleccion_id);
 
-        $resultados = $this->getResultadosDetallado($eleccion_id)->get();
+        //$resultados = $this->getResultadosDetallado($eleccion_id)->get();
+        $resultados = $this->getResultadosSinVotar2($eleccion_id)->get();
 
         //dd($resultados);
 
@@ -271,40 +272,18 @@ class EleccionController extends Controller
 
         $content .= $eleccion->eleccion_nombre . $salto_linea;
 
-        $content .= "CANDIDATO,PERSONAS".$salto_linea;
+        //$content .= "CANDIDATO,PERSONAS".$salto_linea;
+        $content .= "PERSONAS".$salto_linea;
 
-        foreach($resultados->pluck('candidato_id')->unique() as $candidato_id){
+        foreach($resultados as $item){
 
-            $resultados_candidato = $resultados->where('candidato_id',$candidato_id);
-
-            //$key = 0;
-
-            foreach ($resultados_candidato as $item) {
-                //if($key == 0){
-                    $content .= $item->candidato_nombre.' '.$item->candidato_apellido.','.$item->persona_nombre.' '.$item->persona_apellido.$salto_linea;
-                /*} else {
-                    $content .= ','.$item->persona_nombre.$salto_linea;
-                }
-                $key++;*/
-            }
+                $content .= $item->persona_nombre . ' ' . $item->persona_apellido . $salto_linea;
 
         }
 
-        //dd($content);
-
-        /*$content .= "candidato,votos";
-        $content .= $salto_linea;
-
-        foreach($this->getResultadosDetallado($eleccion_id)->get() as $resultado){
-            $content .= implode(',', collect($resultado)->toArray());
-            $content .= $salto_linea;
-        }*/
-
-        //dd($eleccion);
-
         $nombre = strtolower($eleccion->eleccion_nombre);
         $nombre = str_replace(' ', '_', $nombre);
-        $nombre = $nombre."_detallado.xls";
+        $nombre = $nombre."_detallado.txt";
 
         $path = "reportes/".$nombre;
 
@@ -357,7 +336,77 @@ class EleccionController extends Controller
                 })
                 ->select('tipo_persona.tipo_persona_nombre',DB::raw('count(persona.persona_id) as personas'))
                 ->groupBy('tipo_persona.tipo_persona_nombre')
-                ->where('votacion.votacion_id',null);
+                ->where('votacion.votacion_id',null)
+                ->where('persona.persona_activa',true)
+                ->where('persona.persona_ingreso',true);
+    }
+
+    public function getResultadosSinVotar2($id){
+        return  DB::table('persona')
+                ->leftJoin('tipo_persona','tipo_persona.tipo_persona_id','=','persona.tipo_persona_id')
+                ->leftJoin('votacion',function($join) use($id){
+                    $join->on('votacion.persona_id','=','persona.persona_id')
+                        ->on('votacion.eleccion_id','=',DB::raw($id));
+                })
+                ->select('persona.persona_nombre','persona.persona_apellido')
+                ->where('votacion.votacion_id',null)
+                ->where('persona.persona_activa',true)
+                ->where('persona.persona_ingreso',true);
+    }
+
+    public function reporteResumen($eleccion_id){
+        //dd($this->getResultadosResumen($eleccion_id)->get());
+
+        $eleccion = Eleccion::find($eleccion_id);
+
+        //$resultados = $this->getResultadosDetallado($eleccion_id)->get();
+        $resultados = $this->getResultadosResumen($eleccion_id)->get();
+
+        //dd($resultados);
+
+        $eleccion = Eleccion::find($eleccion_id);
+
+        $content = '';
+        $salto_linea = "\r\n";
+
+        $content .= $eleccion->eleccion_nombre . $salto_linea;
+
+        //$content .= "CANDIDATO,PERSONAS".$salto_linea;
+        $content .= "TIPO PERSONA,VOTOS".$salto_linea;
+
+        foreach($resultados as $item){
+
+                $content .= $item->tipo_persona_nombre . ',' . $item->votos . $salto_linea;
+
+        }
+
+        $nombre = strtolower($eleccion->eleccion_nombre);
+        $nombre = str_replace(' ', '_', $nombre);
+        $nombre = $nombre."_resumen.txt";
+
+        $path = "reportes/".$nombre;
+
+        //dd($nombre);
+
+        Storage::disk('local')->put($path, $content);
+
+        return response()->download($path, $nombre);
+    }
+
+    public function getResultadosResumen($id){
+        return DB::table('eleccion_persona')
+                            ->join('persona','persona.persona_id', '=', 'eleccion_persona.persona_id')
+                            ->join('tipo_persona','tipo_persona.tipo_persona_id','=','persona.tipo_persona_id')
+                            ->join('votacion',function($join){
+                                    $join->on('votacion.candidato_id', '=', 'eleccion_persona.persona_id')
+                                    ->on('votacion.eleccion_id', '=', 'eleccion_persona.eleccion_id');
+                                })
+                            ->select('tipo_persona.tipo_persona_nombre', DB::raw('count(votacion.votacion_id) as votos'))
+                            ->groupBy('tipo_persona.tipo_persona_id')
+                            ->groupBy('tipo_persona.tipo_persona_nombre')
+                            ->orderBy('votos', 'desc')
+                            ->orderBy('tipo_persona_nombre', 'asc')
+                            ->where('eleccion_persona.eleccion_id',$id);
     }
 
 }

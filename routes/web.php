@@ -75,6 +75,9 @@ Route::group(['middleware' => ['auth']], function(){
       Route::get('persona/general/salida',["as" => 'persona.general.salida',
         'uses' => 'PersonaController@salidaGeneral']);
 
+      Route::get('eleccion/reporte/resumen/{id}',["as" => 'eleccion.reporte.resumen',
+        'uses' => 'EleccionController@reporteResumen']);
+
     });
 
     //Route::resource('eleccion', 'VotacionController');
