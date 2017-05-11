@@ -83,7 +83,9 @@
 
 <div class="panel panel-custom-admin">
     <div class="panel-heading">
-        <h3 class="panel-title" >Res<a href="{{ route('admin.eleccion.reporte.detallado', ['eleccion_id' => $id]) }}">u</a>ltados</h3>
+        <h3 class="panel-title" >
+        Res<a href="{{ route('admin.eleccion.reporte.detallado', ['eleccion_id' => $id]) }}">u</a>ltados
+        </h3>
     </div>
     <div class="panel-body">
         <table class="table">

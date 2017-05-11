@@ -260,17 +260,34 @@ class EleccionController extends Controller
 
         $eleccion = Eleccion::find($eleccion_id);
 
-        //$resultados = $this->getResultadosDetallado($eleccion_id)->get();
-        $resultados = $this->getResultadosSinVotar2($eleccion_id)->get();
-
-        //dd($resultados);
-
-        $eleccion = Eleccion::find($eleccion_id);
-
         $content = '';
         $salto_linea = "\r\n";
 
         $content .= $eleccion->eleccion_nombre . $salto_linea;
+
+        $resultados = $this->getResultadosDetallado($eleccion_id)->get();
+
+        $content .= "CANDIDATO,PERSONAS".$salto_linea;
+        foreach($resultados->pluck('candidato_id')->unique() as $candidato_id){
+            $resultados_candidato = $resultados->where('candidato_id',$candidato_id);
+            //$key = 0;
+            foreach ($resultados_candidato as $item) {
+                //if($key == 0){
+                    $content .= $item->candidato_nombre.' '.$item->candidato_apellido.','.$item->persona_nombre.' '.$item->persona_apellido.$salto_linea;
+                /*} else {
+                    $content .= ','.$item->persona_nombre.$salto_linea;
+                }
+                $key++;*/
+            }
+        }
+
+        $content .= $salto_linea;
+        $content .= 'SIN VOTAR';
+        $content .= $salto_linea;
+
+        $resultados = $this->getResultadosSinVotar2($eleccion_id)->get();
+
+        //dd($resultados);
 
         //$content .= "CANDIDATO,PERSONAS".$salto_linea;
         $content .= "PERSONAS".$salto_linea;
@@ -338,7 +355,8 @@ class EleccionController extends Controller
                 ->groupBy('tipo_persona.tipo_persona_nombre')
                 ->where('votacion.votacion_id',null)
                 ->where('persona.persona_activa',true)
-                ->where('persona.persona_ingreso',true);
+                ->where('persona.persona_ingreso',true)
+                ->where('tipo_persona.tipo_persona_votacion',true);
     }
 
     public function getResultadosSinVotar2($id){
