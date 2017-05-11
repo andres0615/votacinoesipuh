@@ -414,11 +414,12 @@ class EleccionController extends Controller
     public function getResultadosResumen($id){
         return DB::table('eleccion_persona')
                             ->join('persona','persona.persona_id', '=', 'eleccion_persona.persona_id')
-                            ->join('tipo_persona','tipo_persona.tipo_persona_id','=','persona.tipo_persona_id')
                             ->join('votacion',function($join){
                                     $join->on('votacion.candidato_id', '=', 'eleccion_persona.persona_id')
                                     ->on('votacion.eleccion_id', '=', 'eleccion_persona.eleccion_id');
                                 })
+                            ->join('persona as votante','votante.persona_id','=','votacion.persona_id')
+                            ->join('tipo_persona','tipo_persona.tipo_persona_id','=','votante.tipo_persona_id')
                             ->select('tipo_persona.tipo_persona_nombre', DB::raw('count(votacion.votacion_id) as votos'))
                             ->groupBy('tipo_persona.tipo_persona_id')
                             ->groupBy('tipo_persona.tipo_persona_nombre')
