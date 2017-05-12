@@ -48,6 +48,8 @@ class VotacionController extends Controller
         $data["candidatos"] =   DB::table('persona')
                                 ->leftJoin('eleccion_persona', 'eleccion_persona.persona_id', '=', 'persona.persona_id')
                                 ->where('eleccion_persona.eleccion_id', $eleccion_codigo)
+                                ->orderBy('persona.persona_apellido')
+                                ->orderBy('persona.persona_nombre')
                                 ->get();
 
         //dd($data);
