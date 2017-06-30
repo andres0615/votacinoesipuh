@@ -17,6 +17,7 @@ class TipoPersonaController extends Controller
         $data = array();
         $data["title"] = "Crear tipo persona";
         $data["edit"] = false;
+        $data["tipo_persona_votacion"] = null;
 
         return view('admin.tipopersona.form', $data);
     }
@@ -50,6 +51,7 @@ class TipoPersonaController extends Controller
         $data["title"] = "Editar tipo persona";
         $data["edit"] = true;
         $data["id"] = $id;
+        $data["tipo_persona_votacion"] = ($tipo_persona->tipo_persona_votacion)?'checked':null;
 
 
         return view('admin.tipopersona.form', $data);
