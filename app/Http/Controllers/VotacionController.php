@@ -62,13 +62,13 @@ class VotacionController extends Controller
         try{
 
             $eleccion = Eleccion::find($request->eleccion_id);
+            $persona = Auth::guard('persona')->user();
 
             $votacion = Votacion::where('eleccion_id', $request->eleccion_id)
-                        ->where('persona_id', $request->persona_id)
+                        ->where('persona_id', $persona->persona_id)
                         ->first();
 
             if(($eleccion->eleccion_activa == true) && (!is_object($votacion))){
-                $persona = Auth::guard('persona')->user();
 
                 $votacion = new Votacion($request->all());
                 $votacion->persona_id = $persona->persona_id;
