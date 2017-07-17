@@ -67,7 +67,7 @@ class VotacionController extends Controller
                         ->where('persona_id', $request->persona_id)
                         ->first();
 
-            if($eleccion->eleccion_activa == true && !is_object($votacion)){
+            if(($eleccion->eleccion_activa == true) && (!is_object($votacion))){
                 $persona = Auth::guard('persona')->user();
 
                 $votacion = new Votacion($request->all());
