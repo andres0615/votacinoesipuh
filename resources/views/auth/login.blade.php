@@ -2,7 +2,7 @@
 
 @section('content')
 
-{{!! die("disabled") !!}}
+
 
 <div class="container">
     <div class="row">
