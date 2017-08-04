@@ -65,6 +65,7 @@ class LoginController extends Controller
     }
 
     public function login(Request $request){
+        die("disabled");
         return $this->authenticate($request->persona_identificacion, $request->persona_codigo_alterno);
     }
 
